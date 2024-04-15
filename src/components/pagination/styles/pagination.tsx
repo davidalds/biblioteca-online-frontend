@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export const PaginationContainer = styled.div`
   display: flex;
@@ -33,7 +33,7 @@ export const PaginationItem = styled.div<{ isactualpage?: 'true' | 'false' }>`
   user-select: none;
 `
 
-export const PaginationButton = styled.div`
+export const PaginationButton = styled.div<{ disabled: boolean }>`
   display: flex;
   border: 1px solid ${(props) => props.theme.azulEscuro};
   background-color: ${(props) => props.theme.branco};
@@ -44,4 +44,13 @@ export const PaginationButton = styled.div`
   height: 30px;
   width: 50px;
   border-radius: 5px;
+
+  ${(props) => {
+    if (props.disabled) {
+      return css`
+        opacity: 0.5;
+        cursor: not-allowed;
+      `
+    }
+  }}
 `

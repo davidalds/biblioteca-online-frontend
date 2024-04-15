@@ -23,4 +23,6 @@ export const CardBookContent = styled.div<{ imageurl: string }>`
   flex: 4;
   background-color: ${(props) => props.theme.cinza};
   background-image: url(${(props) => props.imageurl});
+  background-position: center;
+  background-size: cover;
 `

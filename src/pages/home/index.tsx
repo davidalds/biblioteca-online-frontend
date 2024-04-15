@@ -5,43 +5,63 @@ import BookCard from '../../components/bookCard'
 import { useBooks } from '../../hooks/books/useBooks'
 import { IconHome } from '../../common/icons'
 import Pagination from '../../components/pagination'
+import Alert from '../../components/alert'
 
 const Home = () => {
   const [searchValue, setSearchValue] = useState<string>('')
-  const limit = 4
+  const limitPerPage = 6
   const [offset, setOffset] = useState<number>(0)
-  const { data, error } = useBooks('', offset * limit, limit)
+  const { data, error } = useBooks(
+    searchValue,
+    offset * limitPerPage,
+    limitPerPage
+  )
 
-  const handleButton = () => {
-    if (!searchValue) return
-    window.alert(searchValue)
+  const resetOffset = () => {
+    setOffset(0)
   }
 
-  const handleOffset = useCallback((offsetValue: number) => {
-    setOffset(offsetValue)
-  }, [])
+  const handleSearch = useCallback(
+    (searchValue: string) => {
+      setSearchValue(searchValue)
+      resetOffset()
+    },
+    [setSearchValue]
+  )
 
-  return (
+  const handleOffset = useCallback(
+    (offsetValue: number) => {
+      setOffset(offsetValue)
+    },
+    [setOffset]
+  )
+
+  return error ? (
+    <Alert type={'ERROR'} msg="Ocorreu um erro ao carregar livros" />
+  ) : (
     <>
-      <SearchBar
-        placeHolder="BUSCAR: título"
-        searchValue={searchValue}
-        onChange={setSearchValue}
-        handleButton={handleButton}
-      />
+      <SearchBar placeHolder="BUSCAR: título" handleSearch={handleSearch} />
       <MainSection Icon={IconHome} header="Livros">
-        {data?.books.map(({ id, title }) => (
-          <BookCard header={title} to={`book/${id}`} key={id} />
-        ))}
+        {data?.books.length ? (
+          data.books.map(({ id, title }) => (
+            <BookCard
+              header={title}
+              to={`book/${id}`}
+              key={id}
+              bookImage={
+                'https://m.media-amazon.com/images/I/91Bx5ilP+EL._AC_UF1000,1000_QL80_.jpg'
+              }
+            />
+          ))
+        ) : (
+          <></>
+        )}
       </MainSection>
-      {data && (
-        <Pagination
-          offset={offset + 1}
-          total={data.total}
-          limit={limit}
-          changeOffset={handleOffset}
-        />
-      )}
+      <Pagination
+        totalData={data?.total ? data.total : 0}
+        limitPerPage={limitPerPage}
+        changeOffset={handleOffset}
+      />
     </>
   )
 }

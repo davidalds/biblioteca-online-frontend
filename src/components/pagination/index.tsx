@@ -8,58 +8,56 @@ import {
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
 
 interface IPropsPagination {
-  total: number
-  limit: number
+  totalData: number
+  limitPerPage: number
   showedItems?: number
   changeOffset: (offset: number) => void
-  offset: number
 }
 
 const Pagination = ({
-  total,
-  limit,
+  totalData,
+  limitPerPage,
   showedItems = 3,
   changeOffset,
-  offset,
 }: IPropsPagination) => {
-  const [pageCount, setPageCount] = useState<number>(offset)
+  const [page, setPage] = useState<number>(1)
   const [itemsSequence, setItemsSequence] = useState<number>(1)
   const [lastShowedItem, setLastShowedItem] = useState<number>(showedItems)
-  const totalItems = Number.isInteger(total / limit)
-    ? total / limit
-    : Math.ceil(total / limit)
+  const totalItems = Number.isInteger(totalData / limitPerPage)
+    ? totalData / limitPerPage
+    : Math.ceil(totalData / limitPerPage)
 
-  const prevPageCount = () => {
-    if (pageCount > 1) {
-      handlePageCount(-1)
+  const prevPage = () => {
+    if (page > 1) {
+      handlepage(-1)
 
-      if (pageCount <= itemsSequence) {
-        handleChangeSequenceAndLastItem(-1)
+      if (page <= itemsSequence) {
+        handleChangeSequenceAndLastShowedItem(-1)
       }
     }
   }
 
-  const nextPageCount = () => {
-    if (pageCount < totalItems) {
-      handlePageCount(1)
+  const nextPage = () => {
+    if (page < totalItems) {
+      handlepage(1)
 
-      if (pageCount >= lastShowedItem && pageCount + 1 !== totalItems) {
-        handleChangeSequenceAndLastItem(1)
+      if (page >= lastShowedItem && page + 1 !== totalItems) {
+        handleChangeSequenceAndLastShowedItem(1)
       }
     }
   }
 
-  const handlePageCount = (n: number) => {
-    setPageCount((prev) => prev + n)
+  const handlepage = (n: number) => {
+    setPage((prev) => prev + n)
   }
 
-  const handleChangeSequenceAndLastItem = (n: number) => {
+  const handleChangeSequenceAndLastShowedItem = (n: number) => {
     setItemsSequence((prev) => prev + n)
     setLastShowedItem((prev) => prev + n)
   }
 
   const handleSelectItem = (index: number) => {
-    setPageCount(index)
+    setPage(index)
 
     setItemsSequence((prev) =>
       index === 1
@@ -74,19 +72,19 @@ const Pagination = ({
   }
 
   useEffect(() => {
-    changeOffset(pageCount - 1)
-  }, [pageCount, changeOffset, limit])
+    changeOffset(page - 1)
+  }, [page, changeOffset])
 
   return (
     <PaginationContainer>
-      <PaginationButton onClick={prevPageCount}>
+      <PaginationButton onClick={prevPage} disabled={page === 1 ? true : false}>
         <FaAngleLeft />
       </PaginationButton>
       <PaginationItens>
         {itemsSequence > 1 && (
           <>
             <PaginationItem
-              isactualpage={pageCount === 1 ? 'true' : 'false'}
+              isactualpage={page === 1 ? 'true' : 'false'}
               onClick={() => handleSelectItem(1)}
             >
               {1}
@@ -100,9 +98,7 @@ const Pagination = ({
           return (
             <PaginationItem
               key={index}
-              isactualpage={
-                pageCount === index + itemsSequence ? 'true' : 'false'
-              }
+              isactualpage={page === index + itemsSequence ? 'true' : 'false'}
               onClick={() => handleSelectItem(index + itemsSequence)}
             >
               {index + itemsSequence}
@@ -111,9 +107,9 @@ const Pagination = ({
         })}
         {totalItems > showedItems && (
           <>
-            {pageCount + 1 < totalItems && <span>...</span>}
+            {page + 1 < totalItems && <span>...</span>}
             <PaginationItem
-              isactualpage={pageCount === totalItems ? 'true' : 'false'}
+              isactualpage={page === totalItems ? 'true' : 'false'}
               onClick={() => handleSelectItem(totalItems)}
             >
               {totalItems}
@@ -121,7 +117,10 @@ const Pagination = ({
           </>
         )}
       </PaginationItens>
-      <PaginationButton onClick={nextPageCount}>
+      <PaginationButton
+        onClick={nextPage}
+        disabled={page === totalItems ? true : false}
+      >
         <FaAngleRight />
       </PaginationButton>
     </PaginationContainer>

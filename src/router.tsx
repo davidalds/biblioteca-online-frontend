@@ -4,7 +4,6 @@ import Layout from './components/layout'
 import Home from './pages/home'
 import Genres from './pages/genres'
 import Management from './pages/management'
-import BookDetail from './pages/book'
 import LoginPage from './pages/login'
 import RequireAuth from './auth/RequireAuth'
 
@@ -18,6 +17,8 @@ const CreateAuthorsComponent = lazy(
 const CreateGenresComponent = lazy(
   () => import('./pages/management/genres/create')
 )
+
+const BookDetailComponent = lazy(() => import('./pages/book/index'))
 
 export const router = createBrowserRouter([
   {
@@ -57,7 +58,7 @@ export const router = createBrowserRouter([
           },
         ],
       },
-      { path: 'book/:id', element: <BookDetail /> },
+      { path: 'book/:id', element: <BookDetailComponent /> },
     ],
   },
   {

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   ButtonSearchBar,
   Input,
@@ -7,26 +8,25 @@ import {
 
 interface IProps {
   placeHolder: string
-  searchValue: string
-  onChange: (e: string) => void
-  handleButton: () => void
+  handleSearch: (searchValue: string) => void
 }
 
-const SearchBar = ({
-  placeHolder,
-  searchValue,
-  onChange,
-  handleButton,
-}: IProps) => {
+const SearchBar = ({ placeHolder, handleSearch }: IProps) => {
+  const [searchValue, setSearchValue] = useState<string>('')
+
+  const handleClickSearch = () => {
+    handleSearch(searchValue)
+  }
+
   return (
     <InputContainer>
-      <ButtonSearchBar onClick={handleButton}>
+      <ButtonSearchBar onClick={handleClickSearch}>
         <SearchIcon />
       </ButtonSearchBar>
       <Input
         placeholder={placeHolder}
         value={searchValue}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => setSearchValue(e.target.value)}
       />
     </InputContainer>
   )
