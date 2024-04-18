@@ -1,7 +1,7 @@
 import useSWR from 'swr'
 import { api } from '../../api'
 
-interface IProps {
+interface IDataPromise {
   total: number
   authors: {
     id: number
@@ -12,11 +12,14 @@ interface IProps {
   }[]
 }
 
-const getAuthors = (url: string): Promise<IProps> =>
+const getAuthors = (url: string): Promise<IDataPromise> =>
   api.get(url).then((res) => res.data)
 
-const useAuthors = () => {
-  const { data, error } = useSWR('/authors?offset=0&limit=100', getAuthors)
+const useAuthors = (offset?: number, limit?: number) => {
+  const { data, error } = useSWR(
+    `/authors?offset=${offset ? offset : 0}&limit=${limit ? limit : 100}`,
+    getAuthors
+  )
 
   return { data, error }
 }

@@ -20,6 +20,14 @@ const CreateGenresComponent = lazy(
 
 const BookDetailComponent = lazy(() => import('./pages/book/index'))
 
+const AuthorsListComponent = lazy(
+  () => import('./pages/management/authors/list')
+)
+
+const GenresListComponent = lazy(() => import('./pages/management/genres/list'))
+
+const BooksListComponent = lazy(() => import('./pages/management/books/list'))
+
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -49,12 +57,24 @@ export const router = createBrowserRouter([
             element: <CreateGenresComponent />,
           },
           {
+            path: 'genres/list',
+            element: <GenresListComponent />,
+          },
+          {
             path: 'authors/create',
             element: <CreateAuthorsComponent />,
           },
           {
+            path: 'authors/list',
+            element: <AuthorsListComponent />,
+          },
+          {
             path: 'books/create',
             element: <CreateBooksComponent />,
+          },
+          {
+            path: 'books/list',
+            element: <BooksListComponent />,
           },
         ],
       },

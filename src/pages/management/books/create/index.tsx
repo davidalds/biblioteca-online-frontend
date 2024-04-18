@@ -67,7 +67,7 @@ const CreateBooksPage = () => {
 
   useEffect(() => {
     if (genresData) {
-      const genres_arr = genresData.map(({ id, title }) => ({
+      const genres_arr = genresData.genres.map(({ id, title }) => ({
         value: id.toString(),
         label: `${title}`,
       }))

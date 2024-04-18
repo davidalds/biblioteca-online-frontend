@@ -24,7 +24,7 @@ const Management = () => {
             <OptionCard
               cardTitle="Listar"
               CardIcon={IconNumList}
-              cardLink="/"
+              cardLink="books/list"
             />
           </SubSection>
           <SubSection SubSectionIcon={IconUsers} subSectionTitle="Usuários">
@@ -44,7 +44,7 @@ const Management = () => {
             <OptionCard
               cardTitle="Listar"
               CardIcon={IconNumList}
-              cardLink="/"
+              cardLink="genres/list"
             />
           </SubSection>
           <SubSection SubSectionIcon={IconUsers} subSectionTitle="Autores">
@@ -56,7 +56,7 @@ const Management = () => {
             <OptionCard
               cardTitle="Listar"
               CardIcon={IconNumList}
-              cardLink="/"
+              cardLink="authors/list"
             />
           </SubSection>
         </SubSections>

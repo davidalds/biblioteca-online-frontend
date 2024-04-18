@@ -1,12 +1,17 @@
 import useSWR from 'swr'
 import { api } from '../../api'
+import { book } from '../../types/bookTypes'
 
-interface IProps {
+type dataBook = {
+  id: number
+} & book
+
+interface IDataPromise {
   total: number
-  books: { id: number; title: string }[]
+  books: dataBook[]
 }
 
-const getBooks = (url: string): Promise<IProps> =>
+const getBooks = (url: string): Promise<IDataPromise> =>
   api.get(url).then((res) => res.data)
 
 const useBooks = (search?: string, offset?: number, limit?: number) => {

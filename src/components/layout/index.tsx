@@ -3,7 +3,6 @@ import { Outlet } from 'react-router-dom'
 import SideBar from '../sidebar'
 import { Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
-import Alert from '../alert'
 import ErrorFallBack from '../ErrorFallBack'
 
 const Layout = () => {
